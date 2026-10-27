@@ -376,7 +376,7 @@ export default function HomeScreen() {
         <Text style={styles.price}>$ {item.price.toFixed(2)}</Text>
 
         <View style={styles.cardFooter}>
-          <Text style={styles.rating}>★ {(item.rating ?? 0).toFixed(1)}</Text>
+          <Text style={styles.rating}>Rating: {(item.rating ?? 0).toFixed(1)}</Text>
           <Text style={styles.stock}>Stock {item.stock ?? 0}</Text>
         </View>
       </View>
@@ -512,7 +512,7 @@ export default function HomeScreen() {
               <Text style={styles.detailPrice}>$ {selectedProduct.price.toFixed(2)}</Text>
 
               <View style={styles.infoRow}>
-                <InfoBox label="Rating" value={`★ ${(selectedProduct.rating ?? 0).toFixed(1)}`} />
+                <InfoBox label="Rating" value={`${(selectedProduct.rating ?? 0).toFixed(1)} / 5`} />
                 <InfoBox label="Stock" value={String(selectedProduct.stock ?? 0)} />
                 <InfoBox label="Brand" value={selectedProduct.brand ?? "N/A"} />
               </View>
@@ -537,11 +537,6 @@ export default function HomeScreen() {
               {selectedProduct.reviews?.length ? (
                 selectedProduct.reviews.map((review, index) => (
                   <View style={styles.reviewCard} key={`${review.reviewerEmail ?? "review"}-${index}`}>
-                    <View style={styles.reviewHeader}>
-                      <Text style={styles.reviewer}>Customer</Text>
-                      <Text style={styles.reviewRating}>★ {review.rating}</Text>
-                    </View>
-
                     <Text style={styles.reviewDetail}>
                       <Text style={styles.reviewLabel}>Name: </Text>
                       {review.reviewerName ?? "Not provided"}
@@ -557,6 +552,11 @@ export default function HomeScreen() {
                       {selectedProduct.title}
                     </Text>
 
+                    <Text style={styles.reviewDetail}>
+                      <Text style={styles.reviewLabel}>Rating: </Text>
+                      {review.rating}/5
+                    </Text>
+
                     <Text style={styles.reviewComment}>
                       <Text style={styles.reviewLabel}>Comment: </Text>
                       {review.comment}
@@ -564,7 +564,7 @@ export default function HomeScreen() {
 
                     {review.date ? (
                       <Text style={styles.reviewDate}>
-                        {new Date(review.date).toLocaleDateString()}
+                        Date: {new Date(review.date).toLocaleDateString()}
                       </Text>
                     ) : null}
                   </View>
@@ -1139,19 +1139,6 @@ const styles = StyleSheet.create({
     marginBottom: 9,
     borderWidth: 1,
     borderColor: "#ECE8F3",
-  },
-  reviewHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 7,
-  },
-  reviewer: {
-    color: "#37323E",
-    fontWeight: "900",
-  },
-  reviewRating: {
-    color: "#6842C2",
-    fontWeight: "800",
   },
   reviewDetail: {
     color: "#57515E",
