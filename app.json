@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "name": "VioletCart",
+    "slug": "violetcart-api-activity",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "scheme": "violetcart",
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "android": {
+      "package": "com.violetcart.apiactivity"
+    }
+  }
+}
