@@ -538,10 +538,30 @@ export default function HomeScreen() {
                 selectedProduct.reviews.map((review, index) => (
                   <View style={styles.reviewCard} key={`${review.reviewerEmail ?? "review"}-${index}`}>
                     <View style={styles.reviewHeader}>
-                      <Text style={styles.reviewer}>{review.reviewerName ?? "Customer"}</Text>
+                      <Text style={styles.reviewer}>Customer</Text>
                       <Text style={styles.reviewRating}>★ {review.rating}</Text>
                     </View>
-                    <Text style={styles.reviewComment}>{review.comment}</Text>
+
+                    <Text style={styles.reviewDetail}>
+                      <Text style={styles.reviewLabel}>Name: </Text>
+                      {review.reviewerName ?? "Not provided"}
+                    </Text>
+
+                    <Text style={styles.reviewDetail}>
+                      <Text style={styles.reviewLabel}>Email: </Text>
+                      {review.reviewerEmail ?? "Not provided"}
+                    </Text>
+
+                    <Text style={styles.reviewDetail}>
+                      <Text style={styles.reviewLabel}>Ordered: </Text>
+                      {selectedProduct.title}
+                    </Text>
+
+                    <Text style={styles.reviewComment}>
+                      <Text style={styles.reviewLabel}>Comment: </Text>
+                      {review.comment}
+                    </Text>
+
                     {review.date ? (
                       <Text style={styles.reviewDate}>
                         {new Date(review.date).toLocaleDateString()}
@@ -1133,9 +1153,19 @@ const styles = StyleSheet.create({
     color: "#6842C2",
     fontWeight: "800",
   },
+  reviewDetail: {
+    color: "#57515E",
+    lineHeight: 20,
+    marginBottom: 3,
+  },
+  reviewLabel: {
+    color: "#37323E",
+    fontWeight: "800",
+  },
   reviewComment: {
     color: "#57515E",
     lineHeight: 20,
+    marginTop: 5,
   },
   reviewDate: {
     color: "#9A95A1",
