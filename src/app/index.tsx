@@ -576,8 +576,8 @@ export default function HomeScreen() {
               )}
 
               <Text style={styles.detailHeading}>All Product Data</Text>
-              <Text style={styles.note}>Complete GET product response with meta removed.</Text>
-              <JsonBox value={removeMeta(selectedProduct)} />
+              <Text style={styles.note}>Complete GET product data except meta.</Text>
+              <ProductDataView product={selectedProduct} />
             </ScrollView>
           )}
         </SafeAreaView>
@@ -767,6 +767,48 @@ function InfoBox({ label, value }: { label: string; value: string }) {
       </Text>
     </View>
   );
+}
+
+function ProductDataView({ product }: { product: Product }) {
+  const entries = Object.entries(product).filter(
+    ([key]) => key !== "meta" && key !== "reviews"
+  );
+
+  return (
+    <View style={styles.productDataBox}>
+      {entries.map(([key, value]) => {
+        let displayValue = "";
+
+        if (Array.isArray(value)) {
+          displayValue = value.join(", ");
+        } else if (value && typeof value === "object") {
+          displayValue = Object.entries(value)
+            .map(([subKey, subValue]) => `${subKey}: ${String(subValue)}`)
+            .join(", ");
+        } else {
+          displayValue = String(value ?? "");
+        }
+
+        return (
+          <View key={key} style={styles.productDataRow}>
+            <Text style={styles.productDataLabel}>{formatLabel(key)}:</Text>
+            <Text style={styles.productDataValue}>{displayValue}</Text>
+          </View>
+        );
+      })}
+
+      <View style={styles.productDataRow}>
+        <Text style={styles.productDataLabel}>Reviews:</Text>
+        <Text style={styles.productDataValue}>Shown in Customer Reviews above</Text>
+      </View>
+    </View>
+  );
+}
+
+function formatLabel(value: string) {
+  return value
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (letter) => letter.toUpperCase());
 }
 
 function JsonBox({ value }: { value: unknown }) {
@@ -1163,6 +1205,27 @@ const styles = StyleSheet.create({
     color: "#77717E",
     fontSize: 12,
     marginBottom: 8,
+  },
+  productDataBox: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 11,
+    padding: 13,
+    borderWidth: 1,
+    borderColor: "#ECE8F3",
+  },
+  productDataRow: {
+    paddingVertical: 7,
+    borderBottomWidth: 1,
+    borderBottomColor: "#F0EDF5",
+  },
+  productDataLabel: {
+    color: "#37323E",
+    fontWeight: "800",
+    marginBottom: 2,
+  },
+  productDataValue: {
+    color: "#57515E",
+    lineHeight: 19,
   },
   jsonBox: {
     backgroundColor: "#28252E",
