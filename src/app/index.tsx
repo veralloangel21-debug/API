@@ -442,7 +442,7 @@ export default function HomeScreen() {
         <View style={styles.productsActions}>
           <Text style={styles.count}>{filteredProducts.length} items</Text>
           <Pressable style={styles.refreshButton} onPress={getProducts}>
-            <Text style={styles.refreshText}>GET ↻</Text>
+            <Text style={styles.refreshText}>Refresh ↻</Text>
           </Pressable>
         </View>
       </View>
@@ -459,7 +459,7 @@ export default function HomeScreen() {
       {loading ? (
         <View style={styles.center}>
           <ActivityIndicator size="large" color="#6842C2" />
-          <Text style={styles.loadingText}>GET: Loading products...</Text>
+          <Text style={styles.loadingText}>Loading products...</Text>
         </View>
       ) : (
         <FlatList
