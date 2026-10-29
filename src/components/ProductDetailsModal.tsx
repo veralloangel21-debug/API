@@ -173,33 +173,40 @@ function ReviewCard({
 }) {
   return (
     <View style={styles.reviewCard}>
-      <View style={styles.reviewerRow}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>
-            {(review.reviewerName ?? "C").charAt(0).toUpperCase()}
-          </Text>
-        </View>
+      <View style={styles.reviewTopRow}>
+        <View style={styles.reviewUserRow}>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>
+              {(review.reviewerName ?? "C").charAt(0).toUpperCase()}
+            </Text>
+          </View>
 
-        <View style={styles.reviewerInfo}>
           <Text style={styles.reviewerName}>
             {review.reviewerName ?? "Customer"}
           </Text>
-
-          <Text style={styles.reviewerEmail}>
-            {review.reviewerEmail ?? "Email not provided"}
-          </Text>
         </View>
+
+        <Text style={styles.helpfulText}>Helpful (0)</Text>
       </View>
 
-      <Text style={styles.reviewRating}>
+      <Text style={styles.reviewStars}>
         {getRatingText(review.rating)}
       </Text>
 
-      <Text style={styles.orderedText}>
-        Ordered: {productTitle}
+      <Text style={styles.reviewMeta}>
+        <Text style={styles.reviewMetaLabel}>Variation: </Text>
+        {productTitle}
       </Text>
 
-      <Text style={styles.reviewComment}>{review.comment}</Text>
+      <Text style={styles.reviewMeta}>
+        <Text style={styles.reviewMetaLabel}>Performance: </Text>
+        {getPerformanceText(review.rating)}
+      </Text>
+
+      <Text style={styles.reviewMeta}>
+        <Text style={styles.reviewMetaLabel}>Best Feature(s): </Text>
+        {review.comment}
+      </Text>
 
       {review.date ? (
         <Text style={styles.reviewDate}>
@@ -329,6 +336,14 @@ function formatLabel(key: string) {
 function getRatingText(rating: number) {
   const rounded = Math.max(0, Math.min(5, Math.round(rating)));
   return `${"★".repeat(rounded)}${"☆".repeat(5 - rounded)}  ${rating}/5`;
+}
+
+function getPerformanceText(rating: number) {
+  if (rating >= 4.5) return "excellent";
+  if (rating >= 3.5) return "good";
+  if (rating >= 2.5) return "average";
+  if (rating >= 1.5) return "poor";
+  return "very poor";
 }
 
 const styles = StyleSheet.create({
@@ -510,55 +525,58 @@ const styles = StyleSheet.create({
   },
   reviewCard: {
     marginTop: 12,
-    paddingTop: 4,
-    paddingBottom: 14,
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: "#EDE8F1",
   },
-  reviewerRow: {
+  reviewTopRow: {
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
   },
+  reviewUserRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
   avatar: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     backgroundColor: "#ECE7F8",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    marginRight: 8,
   },
   avatarText: {
     color: "#6842C2",
     fontWeight: "800",
-  },
-  reviewerInfo: {
-    flex: 1,
+    fontSize: 13,
   },
   reviewerName: {
     color: "#332F37",
     fontWeight: "700",
+    fontSize: 15,
   },
-  reviewerEmail: {
-    color: "#96909A",
-    fontSize: 11,
-    marginTop: 2,
-  },
-  reviewRating: {
-    color: "#E6A500",
-    marginTop: 8,
+  helpfulText: {
+    color: "#7E7886",
     fontSize: 13,
   },
-  orderedText: {
-    color: "#8C8590",
-    fontSize: 12,
-    marginTop: 7,
-  },
-  reviewComment: {
-    color: "#4B4650",
+  reviewStars: {
+    color: "#F4B400",
     marginTop: 8,
-    lineHeight: 20,
+    fontSize: 16,
+  },
+  reviewMeta: {
+    color: "#5B5561",
     fontSize: 14,
+    lineHeight: 22,
+    marginTop: 4,
+  },
+  reviewMetaLabel: {
+    color: "#8D8795",
+    fontWeight: "500",
   },
   reviewDate: {
     color: "#A09AA4",
