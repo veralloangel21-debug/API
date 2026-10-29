@@ -6,6 +6,7 @@ import {
   Image,
   Modal,
   Pressable,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -13,7 +14,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const API_URL = "https://dummyjson.com/products";
 
@@ -99,41 +99,7 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
   return data as T;
 }
 
-// Report the exact JSX component when a runtime import resolves to undefined.
-// This is especially useful after a React Native / Expo SDK upgrade.
-function checkHomeScreenComponents() {
-  const components = {
-    SafeAreaView,
-    StatusBar,
-    View,
-    Text,
-    Pressable,
-    ScrollView,
-    FlatList,
-    Modal,
-    Image,
-    TextInput,
-    ActivityIndicator,
-    FormScreen,
-    FormInput,
-    InfoBox,
-    ProductDataView,
-    JsonBox,
-  };
-
-  const missing = Object.entries(components)
-    .filter(([, component]) => component === undefined || component === null)
-    .map(([name]) => name);
-
-  if (missing.length > 0) {
-    throw new Error(
-      `HomeScreen: undefined JSX component(s): ${missing.join(", ")}. Check this component's import and the installed package version.`
-    );
-  }
-}
-
 export default function HomeScreen() {
-  checkHomeScreenComponents();
   const [products, setProducts] = useState<Product[]>([]);
   const [localIds, setLocalIds] = useState<number[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
